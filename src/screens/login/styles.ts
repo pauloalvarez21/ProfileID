@@ -1,0 +1,171 @@
+import { StyleSheet } from 'react-native';
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F7F9FB',
+  },
+  scrollContent: {
+    paddingBottom: 40,
+  },
+  navBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+    backgroundColor: '#F7F9FB',
+  },
+  langToggle: {
+    alignItems: 'flex-end',
+  },
+  langPill: {
+    backgroundColor: '#EDF2F7',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  langText: {
+    fontSize: 10,
+    fontWeight: '800',
+    color: '#4A5568',
+  },
+  logoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  logoBox: {
+    width: 32,
+    height: 32,
+    backgroundColor: '#000',
+    borderRadius: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  logoCircle: {
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    borderWidth: 2,
+    borderColor: '#4A90E2',
+  },
+  logoText: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: '#1A202C',
+  },
+  heroSection: {
+    paddingHorizontal: 24,
+    marginTop: 40,
+    marginBottom: 30,
+  },
+  accessPortal: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#718096',
+    letterSpacing: 1.5,
+    marginBottom: 12,
+  },
+  heroTitle: {
+    fontSize: 48,
+    fontWeight: '800',
+    color: '#2D3748',
+    lineHeight: 52,
+    marginBottom: 20,
+  },
+  heroDescription: {
+    fontSize: 16,
+    color: '#4A5568',
+    lineHeight: 24,
+    maxWidth: '90%',
+    marginBottom: 24,
+  },
+  accentLine: {
+    width: 50,
+    height: 3,
+    backgroundColor: '#CBD5E0',
+    borderRadius: 2,
+  },
+  card: {
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 24,
+    borderRadius: 16,
+    padding: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 3,
+  },
+  inputGroup: {
+    marginBottom: 20,
+  },
+  labelRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  label: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#4A5568',
+    letterSpacing: 0.5,
+    marginBottom: 8,
+  },
+  forgotText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#718096',
+  },
+  input: {
+    backgroundColor: '#F1F4F8',
+    height: 52,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    fontSize: 15,
+    color: '#2D3748',
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#EDF2F7',
+    marginVertical: 24,
+  },
+  signupContainer: {
+    alignItems: 'center',
+  },
+  newToText: {
+    fontSize: 13,
+    color: '#718096',
+    marginBottom: 16,
+  },
+  footer: {
+    marginTop: 60,
+    alignItems: 'center',
+    paddingHorizontal: 24,
+  },
+  footerBrand: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#A0ABC0',
+    letterSpacing: 1.5,
+    marginBottom: 16,
+  },
+  footerLinks: {
+    flexDirection: 'row',
+  },
+  footerLink: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: '#718096',
+    marginHorizontal: 12,
+    letterSpacing: 0.5,
+  },
+  footerLinkTappable: {
+    color: '#4A5568',
+    textDecorationLine: 'underline',
+  },
+});

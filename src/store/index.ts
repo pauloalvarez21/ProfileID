@@ -1,0 +1,1 @@
+// Archivo obsoleto para evitar bucles de resolución.

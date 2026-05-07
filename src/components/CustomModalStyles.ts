@@ -1,0 +1,128 @@
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
+
+export const styles = StyleSheet.create({
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(45, 55, 72, 0.4)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  modalContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    width: '100%',
+    maxWidth: 350,
+    padding: 30,
+    alignItems: 'center',
+    elevation: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.1,
+    shadowRadius: 20,
+  },
+  iconContainer: {
+    width: 80,
+    height: 80,
+    borderRadius: 20,
+    backgroundColor: '#EBF4FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 25,
+    borderWidth: 1,
+    borderColor: '#D3E4FF',
+  },
+  iconPlaceholder: {
+    fontSize: 30,
+    color: '#3182CE',
+  },
+  title: {
+    fontSize: 28,
+    fontFamily: 'Outfit-Bold',
+    color: '#1A202C',
+    fontWeight: '800',
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  message: {
+    fontSize: 16,
+    fontFamily: 'Outfit-Regular',
+    color: '#718096',
+    textAlign: 'center',
+    lineHeight: 24,
+    marginBottom: 30,
+    paddingHorizontal: 10,
+  },
+  buttonContainer: {
+    width: '100%',
+    gap: 12,
+  },
+  primaryButton: {
+    backgroundColor: '#4A5568',
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
+    width: '100%',
+  },
+  primaryButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: 'Outfit-Bold',
+    fontWeight: '700',
+  },
+  secondaryButton: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingVertical: 16,
+    alignItems: 'center',
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  secondaryButtonText: {
+    color: '#4A5568',
+    fontSize: 16,
+    fontFamily: 'Outfit-Bold',
+    fontWeight: '700',
+  },
+  badgeSection: {
+    marginTop: 25,
+    backgroundColor: '#F7FAFC',
+    borderRadius: 12,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#EDF2F7',
+  },
+  badgeIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: '#2D3748',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 12,
+  },
+  badgeTextContainer: {
+    flex: 1,
+  },
+  badgeTitle: {
+    fontSize: 14,
+    fontFamily: 'Outfit-Bold',
+    color: '#2D3748',
+    fontWeight: '700',
+  },
+  badgeSubtitle: {
+    fontSize: 11,
+    fontFamily: 'Outfit-Regular',
+    color: '#A0ABC0',
+  },
+  verifiedIcon: {
+    fontSize: 12,
+    color: '#4A5568',
+  }
+});

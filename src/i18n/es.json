@@ -1,0 +1,135 @@
+{
+  "splash": {
+    "loading": "Cargando..."
+  },
+  "login": {
+    "welcome": "Bienvenido",
+    "subtitle": "Inicia sesión para continuar",
+    "emailLabel": "CORREO ELECTRÓNICO",
+    "passwordLabel": "CONTRASEÑA",
+    "forgot": "¿Olvidaste tu contraseña?",
+    "loginButton": "Ingresar",
+    "newToEcosystem": "¿Nuevo en el ecosistema?",
+    "errorTitle": "Error de Inicio de Sesión",
+    "createProfile": "Crear Nuevo Perfil",
+    "heroTitle": "Tarjeta Digital.",
+    "heroDescription": "La forma más sencilla de llevar tu tarjeta de presentación personal.",
+    "errors": {
+      "missingCredentials": "Por favor ingresa tus credenciales.",
+      "invalidCredentials": "Credenciales inválidas.",
+      "legalLoad": "No se pudo cargar el contenido de {{title}}.",
+      "tooManyRequests": "Demasiados intentos. Por favor, intenta más tarde."
+    }
+  },
+  "forgotPassword": {
+    "title": "Recuperar Contraseña",
+    "description": "Ingresa tu correo electrónico para recibir las instrucciones de recuperación.",
+    "emailLabel": "CORREO ELECTRÓNICO",
+    "sendButton": "Enviar Instrucciones",
+    "backToLogin": "Volver al inicio de sesión",
+    "successMessage": "Se ha enviado un correo para restablecer tu contraseña.",
+    "invalidEmail": "Por favor ingresa un correo electrónico válido.",
+    "userNotFound": "El correo electrónico no está registrado en nuestro sistema.",
+    "cooldown": "Reintentar en {{seconds}}s",
+    "resetPassword": {
+      "title": "Restablecer Contraseña",
+      "description": "Ingresa el código que recibiste y tu nueva contraseña.",
+      "codeLabel": "CÓDIGO DE VERIFICACIÓN",
+      "newPasswordLabel": "NUEVA CONTRASEÑA",
+      "confirmPasswordLabel": "CONFIRMAR CONTRASEÑA",
+      "resetButton": "Actualizar Contraseña",
+      "errors": {
+        "missingFields": "Por favor completa todos los campos.",
+        "invalidCode": "El código debe ser de 6 dígitos.",
+        "passwordMismatch": "Las contraseñas no coinciden.",
+        "passwordTooShort": "La contraseña debe tener al menos 8 caracteres."
+      },
+      "success": "Tu contraseña ha sido actualizada exitosamente."
+    }
+  },
+  "editProfile": {
+    "titleEdit": "Editar Perfil",
+    "titleCreate": "Crear Perfil",
+    "uploadPhoto": "SUBIR FOTO",
+    "fullName": "NOMBRE *",
+    "lastName": "APELLIDO",
+    "professionalTitle": "TÍTULO PROFESIONAL *",
+    "company": "EMPRESA",
+    "email": "CORREO ELECTRÓNICO *",
+    "phoneNumber": "NÚMERO TELEFÓNICO",
+    "briefBio": "BREVE BIOGRAFÍA",
+    "password": "CONTRASEÑA",
+    "confirmPassword": "CONFIRMAR CONTRASEÑA",
+    "language": "IDIOMA",
+    "spanish": "Español",
+    "english": "Inglés",
+    "updateButton": "Actualizar Perfil",
+    "createButton": "Crear Perfil",
+    "deleteProfile": "Eliminar Perfil",
+    "viewProfile": "Ver Perfil",
+    "takePhoto": "Tomar Foto",
+    "gallery": "Galería",
+    "saveTitle": "Guardar Perfil",
+    "saveDescription": "¿Deseas guardar una copia en la nube?",
+    "localOnly": "Solo Local",
+    "localCloud": "Local + Nube",
+    "deleteTitle": "Eliminar Perfil",
+    "deleteDescription": "¿Deseas eliminar el perfil solo localmente o también en la nube?",
+    "syncError": "Error de Sincronización",
+    "errors": {
+      "mandatoryFields": "Por favor completa todos los campos obligatorios (*).",
+      "invalidEmail": "Por favor ingresa un correo electrónico válido.",
+      "passwordMismatch": "Las contraseñas no coinciden.",
+      "deleteFailed": "Error al eliminar el perfil.",
+      "cloudDeleteFailed": "No se pudo eliminar de la nube.",
+      "networkFallback": "No se pudo conectar con el servidor, pero se guardará localmente.",
+      "emailExists": "Este correo electrónico ya está registrado. Intenta iniciar sesión.",
+      "passwordRequired": "La contraseña es obligatoria para crear un perfil.",
+      "passwordTooShort": "La contraseña debe tener al menos 8 caracteres.",
+      "syncEndpointNotFound": "El servidor no encontró el endpoint de sincronización. Contacta a soporte."
+    },
+    "syncing": "Sincronizando perfil con la nube...",
+    "syncSuccess": "Perfil sincronizado correctamente.",
+    "tooltips": {
+      "linkedIn": "Ingresa tu nombre de usuario (ej: juan-perez) de LinkedIn.",
+      "profileImage": "La foto de perfil es opcional. Puedes subir una ahora o más tarde.",
+      "professionalTitle": "Tu cargo actual o el título que mejor describa tu rol profesional principal.",
+      "briefBio": "Describe brevemente tu experiencia, habilidades clave o tu filosofía profesional. Máximo 200 caracteres.",
+      "passwordRequirements": "La contraseña debe tener al menos 8 caracteres, incluyendo mayúsculas, minúsculas, números y símbolos.",
+      "syncPending": "Este perfil solo existe en tu teléfono. Para respaldarlo y acceder desde otros dispositivos, elíge 'Local + Nube' al editar."
+    },
+    "success": {
+      "updated": "Tu perfil ha sido actualizado.",
+      "created": "Tu perfil ha sido creado.",
+      "localOnlySuccess": "Perfil guardado en el dispositivo. No se ha sincronizado con la nube."
+    },
+    "viewCard": "Ver Mi Tarjeta",
+    "goToDashboard": "Ir al Dashboard"
+  },
+  "profileDetail": {
+    "header": "Perfil Profesional",
+    "call": "Celular",
+    "email": "Correo",
+    "linkedin": "LinkedIn",
+    "website": "Sitio Web",
+    "scanConnect": "Escanea para Conectar",
+    "instantTransfer": "TRANSFERENCIA INSTANTÁNEA DE PERFIL",
+    "about": "ACERCA DE",
+    "addToContacts": "Agregar a Contactos"
+  },
+  "common": {
+    "support": "SOPORTE",
+    "privacy": "PRIVACIDAD",
+    "terms": "TÉRMINOS",
+    "security": "SEGURIDAD",
+    "close": "Cerrar",
+    "error": "Error",
+    "success": "¡Éxito!",
+    "cancel": "Cancelar",
+    "serverError": "Error del servidor",
+    "logout": "Cerrar Sesión"
+  },
+  "errors": {
+    "networkError": "No se pudo conectar con el servidor."
+  }
+}

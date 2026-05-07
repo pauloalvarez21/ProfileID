@@ -33,6 +33,12 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) requiere acceso a la cámara para permitirte capturar y personalizar tu fotografía de perfil profesional directamente desde la aplicación.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) requiere acceso a tu biblioteca de fotos para que selecciones una imagen existente y la utilices como tu foto de perfil profesional.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) requiere permiso para guardar en tu dispositivo las fotografías de perfil que captures dentro de la aplicación.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>RCTNewArchEnabled</key>

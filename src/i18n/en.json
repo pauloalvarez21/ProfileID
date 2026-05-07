@@ -1,0 +1,127 @@
+{
+  "splash": {
+    "loading": "Loading..."
+  },
+  "login": {
+    "welcome": "Welcome Back",
+    "subtitle": "Sign in to continue",
+    "emailLabel": "EMAIL ADDRESS",
+    "passwordLabel": "PASSWORD",
+    "forgot": "Forgot Password?",
+    "loginButton": "Log In",
+    "newToEcosystem": "New to the Ecosystem?",
+    "errorTitle": "Login Error",
+    "createProfile": "Create New Profile",
+    "heroTitle": "Digital Card.",
+    "heroDescription": "The easiest way to carry your personal business card."
+  },
+  "forgotPassword": {
+    "title": "Recover Password",
+    "description": "Enter your email address to receive recovery instructions.",
+    "emailLabel": "EMAIL ADDRESS",
+    "emailPlaceholder": "example@mail.com",
+    "sendButton": "Send Instructions",
+    "backToLogin": "Back to Login",
+    "successMessage": "An email has been sent to reset your password.",
+    "invalidEmail": "Please enter a valid email address.",
+    "userNotFound": "The email address is not registered in our system.",
+    "cooldown": "Retry in {{seconds}}s",
+    "resetPassword": {
+      "title": "Reset Password",
+      "description": "Enter the code you received and your new password.",
+      "codeLabel": "VERIFICATION CODE",
+      "newPasswordLabel": "NEW PASSWORD",
+      "confirmPasswordLabel": "CONFIRM PASSWORD",
+      "resetButton": "Update Password",
+      "errors": {
+        "missingFields": "Please fill in all fields.",
+        "invalidCode": "Code must be 6 digits.",
+        "passwordMismatch": "Passwords do not match.",
+        "passwordTooShort": "Password must be at least 8 characters long."
+      },
+      "success": "Your password has been updated successfully."
+    }
+  },
+  "editProfile": {
+    "titleEdit": "Edit Profile",
+    "titleCreate": "Create Profile",
+    "uploadPhoto": "UPLOAD PHOTO",
+    "fullName": "NAME *",
+    "lastName": "LAST NAME",
+    "professionalTitle": "PROFESSIONAL TITLE *",
+    "company": "COMPANY",
+    "email": "EMAIL ADDRESS *",
+    "phoneNumber": "PHONE NUMBER",
+    "briefBio": "BRIEF BIO",
+    "password": "PASSWORD",
+    "confirmPassword": "CONFIRM PASSWORD",
+    "language": "LANGUAGE",
+    "spanish": "Spanish",
+    "english": "English",
+    "updateButton": "Update Profile",
+    "createButton": "Create Profile",
+    "deleteProfile": "Delete Profile",
+    "viewProfile": "View Profile",
+    "takePhoto": "Take Photo",
+    "gallery": "Gallery",
+    "saveTitle": "Save Profile",
+    "saveDescription": "Do you want to save a copy to the cloud?",
+    "localOnly": "Local Only",
+    "localCloud": "Local + Cloud",
+    "deleteTitle": "Delete Profile",
+    "deleteDescription": "Do you want to delete your profile locally or also in the cloud?",
+    "syncError": "Sync Error",
+    "errors": {
+      "mandatoryFields": "Please fill in all mandatory fields (*).",
+      "invalidEmail": "Please enter a valid email address.",
+      "passwordMismatch": "Passwords do not match.",
+      "deleteFailed": "Error deleting profile.",
+      "cloudDeleteFailed": "Could not delete from cloud.",
+      "networkFallback": "Could not connect to the server, but it will be saved locally.",
+      "passwordRequired": "Password is required to create a profile.",
+      "passwordTooShort": "Password must be at least 8 characters long."
+    },
+    "syncing": "Syncing profile to cloud...",
+    "syncSuccess": "Profile synced successfully.",
+    "tooltips": {
+      "linkedIn": "Enter your LinkedIn username (e.g., juan-perez).",
+      "profileImage": "Profile photo is optional. You can upload one now or later.",
+      "professionalTitle": "Your current role or the title that best describes your primary professional function.",
+      "briefBio": "Briefly describe your experience, key skills, or professional ethos. Max 200 characters.",
+      "passwordRequirements": "Password must be at least 8 characters long, including uppercase, lowercase, numbers, and symbols.",
+      "syncPending": "This profile only exists on your phone. To back it up and access it from other devices, choose 'Local + Cloud' when editing."
+    },
+    "success": {
+      "updated": "Your profile has been updated.",
+      "created": "Your profile has been created.",
+      "localOnlySuccess": "Profile saved on device. It has not been synced to the cloud."
+    },
+    "viewCard": "View My Card",
+    "goToDashboard": "Go to Dashboard"
+  },
+  "profileDetail": {
+    "header": "Professional Profile",
+    "call": "Phone",
+    "email": "Email",
+    "linkedin": "LinkedIn",
+    "website": "Website",
+    "scanConnect": "Scan to Connect",
+    "instantTransfer": "INSTANT PROFILE TRANSFER",
+    "about": "ABOUT",
+    "addToContacts": "Add to Contacts"
+  },
+  "common": {
+    "support": "SUPPORT",
+    "privacy": "PRIVACY",
+    "terms": "TERMS",
+    "security": "SECURITY",
+    "close": "Close",
+    "error": "Error",
+    "success": "Success!",
+    "cancel": "Cancel",
+    "serverError": "Server error"
+  },
+  "errors": {
+    "networkError": "Could not connect to the server."
+  }
+}
