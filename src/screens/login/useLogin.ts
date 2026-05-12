@@ -11,7 +11,7 @@ import { parseApiError } from '../../services/errorService';
 export const useLogin = () => {
   const { t } = useTranslation();
   const { language, toggleLanguage } = useLanguageStore();
-  const { profile, saveProfile } = useProfileStore();
+  const { setAuthData } = useProfileStore();
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -53,7 +53,9 @@ export const useLogin = () => {
 
   const handleLogin = async (navigate: (screen: keyof RootStackParamList, params?: any) => void) => {
     const trimmedEmail = email.trim();
-    if (!trimmedEmail || !password.trim()) {
+    const trimmedPassword = password.trim();
+
+    if (!trimmedEmail || !trimmedPassword) {
       Alert.alert(
         t('common.error', 'Error'),
         t('login.errors.missingCredentials', 'Please enter your credentials.')
@@ -72,23 +74,25 @@ export const useLogin = () => {
 
     setLoading(true);
     try {
-      const response = await api.post('/auth/login', { email, password }); // Axios ya parsea el JSON
+      const response = await api.post('/auth/login', { 
+        email: trimmedEmail, 
+        password: trimmedPassword 
+      });
+      const { accessToken, user } = response.data;
       
       console.log('--- DEBUG LOGIN ---');
-      console.log('Respuesta completa del servidor:', response.data);
-      console.log('Campo profileImageUri (crudo):', response.data.profileImageUri);
+      console.log('Token recibido:', accessToken ? 'SI' : 'NO');
 
-      const finalImageUri = response.data.profileImageUri 
-        ? `${Config.BASE_URL}/uploads/profiles/${response.data.profileImageUri}`
-        : null;
-      
-      console.log('URL Final construida para mostrar:', finalImageUri);
+      const imageFilename = user.profileImageUri;
+      let finalImageUri = null;
+      if (imageFilename) {
+        // Construir la URL completa de la imagen
+        finalImageUri = `${Config.BASE_URL}${Config.API_PREFIX}/images/${imageFilename}`;
+      }
 
-      // Save valid data to store
-      saveProfile({
-        ...response.data,
-        profileImageUri: finalImageUri,
-      });
+      // Guardar token y datos del usuario usando la nueva función del store
+      // Esto actualiza MMKV para el interceptor y Zustand para la UI
+      setAuthData(accessToken, { ...user, profileImageUri: finalImageUri });
 
       navigate('ProfileDetail');
     } catch (error: any) {

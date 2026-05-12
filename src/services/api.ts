@@ -1,5 +1,8 @@
 import axios from 'axios';
+import { MMKV } from 'react-native-mmkv';
 import { Config } from '../config';
+
+const storage = new MMKV();
 
 const api = axios.create({
   baseURL: `${Config.BASE_URL}${Config.API_PREFIX}`,
@@ -8,6 +11,15 @@ const api = axios.create({
     'Accept': 'application/json',
     'Content-Type': 'application/json',
   },
+});
+
+// Interceptor de peticiones para inyectar el token
+api.interceptors.request.use(async (config) => {
+  const token = storage.getString('accessToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 // Interceptor para normalizar errores

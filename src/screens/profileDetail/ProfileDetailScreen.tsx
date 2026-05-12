@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import {
   View,
-  Text,
   ScrollView,
   TouchableOpacity,
   Linking,
@@ -24,6 +23,8 @@ import {
 import QRModal from '../../components/QRModal';
 import SafeImage from '../../components/SafeImage';
 import CustomModal from '../../components/CustomModal';
+import AppText from '../../components/AppText';
+import Skeleton from '../../components/Skeleton';
 import { useSyncManager } from '../editProfile/useSyncManager';
 
 const adUnitId = __DEV__
@@ -183,6 +184,22 @@ END:VCARD`, [profile]);
     }
   };
 
+  const renderInfoItem = (label: string, value: string | undefined, icon: string, onPress: () => void) => {
+    if (!value && !isSyncing) return null;
+
+    return (
+      <TouchableOpacity style={styles.infoItem} onPress={onPress} disabled={isSyncing}>
+        <View style={styles.infoIconContainer}>
+          <AppText style={styles.infoIcon}>{icon}</AppText>
+        </View>
+        <View style={styles.infoContent}>
+          <AppText variant="medium" style={styles.infoLabel}>{label}</AppText>
+          {isSyncing ? <Skeleton width="60%" height={16} /> : <AppText style={styles.infoValue}>{value}</AppText>}
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -196,100 +213,64 @@ END:VCARD`, [profile]);
               {isSyncing ? (
                 <ActivityIndicator size="small" color="#4E576B" />
               ) : (
-                <Text style={{ fontSize: 20 }}>☁️</Text>
+                <AppText style={{ fontSize: 20 }}>☁️</AppText>
               )}
             </TouchableOpacity>
           )}
         </View>
-        <Text style={styles.headerTitle}>{t('profileDetail.header')}</Text>
+        <AppText variant="semiBold" style={styles.headerTitle}>{t('profileDetail.header')}</AppText>
         <TouchableOpacity style={styles.menuButton} onPress={handleMenuPress}>
-          <Text style={styles.headerTitle}>⋮</Text>
+          <AppText style={styles.headerTitle}>⋮</AppText>
         </TouchableOpacity>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.profileHeader}>
           <View style={styles.imageContainer}>
-            <SafeImage
-              source={profile?.profileImageUri ? { uri: profile.profileImageUri } : undefined}
-              style={styles.profileImage}
-              resizeMode="cover"
-            />
+            {isSyncing ? (
+              <Skeleton width={120} height={120} borderRadius={60} />
+            ) : (
+              <SafeImage
+                source={profile?.profileImageUri ? { uri: profile.profileImageUri } : undefined}
+                style={styles.profileImage}
+                resizeMode="cover"
+              />
+            )}
           </View>
-          <Text style={styles.name}>
-            {profile?.name || profile?.lastName ? `${profile.name} ${profile.lastName}` : 'User Name'}
-          </Text>
-          <Text style={styles.title}>{profile?.title || 'Professional Title'}</Text>
-          {profile?.bio && (
-            <Text style={styles.headerBio}>{profile.bio}</Text>
+          
+          {isSyncing ? (
+            <>
+              <Skeleton width="50%" height={24} style={{ marginTop: 15, marginBottom: 10 }} />
+              <Skeleton width="30%" height={18} />
+            </>
+          ) : (
+            <>
+              <AppText variant="bold" style={styles.name}>
+                {profile?.name || profile?.lastName ? `${profile.name} ${profile.lastName}` : 'User Name'}
+              </AppText>
+              <AppText variant="medium" style={styles.title}>{profile?.title || 'Professional Title'}</AppText>
+            </>
+          )}
+
+          {(profile?.bio || isSyncing) && (
+            isSyncing ? 
+              <Skeleton width="80%" height={40} style={{ marginTop: 15 }} /> : 
+              <AppText style={styles.headerBio}>{profile?.bio}</AppText>
           )}
         </View>
 
         <View style={styles.infoSection}>
-          {profile?.phoneNumber && (
-            <TouchableOpacity style={styles.infoItem} onPress={() => setWhatsappModalVisible(true)}>
-              <View style={styles.infoIconContainer}>
-                <Text style={styles.infoIcon}>📞</Text>
-              </View>
-              <View style={styles.infoContent}>
-                <Text style={styles.infoLabel}>{t('profileDetail.call')}</Text>
-                <Text style={styles.infoValue}>{profile.phoneNumber}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-
-          {profile?.email && (
-            <TouchableOpacity style={styles.infoItem} onPress={() => setEmailModalVisible(true)}>
-              <View style={styles.infoIconContainer}>
-                <Text style={styles.infoIcon}>✉️</Text>
-              </View>
-              <View style={styles.infoContent}>
-                <Text style={styles.infoLabel}>{t('profileDetail.email')}</Text>
-                <Text style={styles.infoValue}>{profile.email}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-
-          {profile?.linkedIn && (
-            <TouchableOpacity 
-              style={styles.infoItem} 
-              onPress={() => setLinkedInModalVisible(true)}
-              onLongPress={handleLinkedIn}
-            >
-              <View style={styles.infoIconContainer}>
-                <Text style={styles.infoIcon}>🔗</Text>
-              </View>
-              <View style={styles.infoContent}>
-                <Text style={styles.infoLabel}>{t('profileDetail.linkedin')}</Text>
-                <Text style={styles.infoValue} numberOfLines={1}>{profile.linkedIn}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-
-          {profile?.website && (
-            <TouchableOpacity 
-              style={styles.infoItem} 
-              onPress={() => setWebsiteModalVisible(true)}
-              onLongPress={handleWebsite}
-            >
-              <View style={styles.infoIconContainer}>
-                <Text style={styles.infoIcon}>🌐</Text>
-              </View>
-              <View style={styles.infoContent}>
-                <Text style={styles.infoLabel}>{t('profileDetail.website')}</Text>
-                <Text style={styles.infoValue} numberOfLines={1}>{profile.website}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-
-          {profile?.company && (
+          {renderInfoItem(t('profileDetail.call'), profile?.phoneNumber, '📞', () => setWhatsappModalVisible(true))}
+          {renderInfoItem(t('profileDetail.email'), profile?.email, '✉️', () => setEmailModalVisible(true))}
+          {renderInfoItem(t('profileDetail.linkedin'), profile?.linkedIn, '🔗', () => setLinkedInModalVisible(true))}
+          {renderInfoItem(t('profileDetail.website'), profile?.website, '🌐', () => setWebsiteModalVisible(true))}
+          
+          {(profile?.company || isSyncing) && (
             <View style={styles.infoItem}>
-              <View style={styles.infoIconContainer}>
-                <Text style={styles.infoIcon}>🏢</Text>
-              </View>
+              <View style={styles.infoIconContainer}><AppText style={styles.infoIcon}>🏢</AppText></View>
               <View style={styles.infoContent}>
-                <Text style={styles.infoLabel}>{t('editProfile.company')}</Text>
-                <Text style={styles.infoValue}>{profile.company}</Text>
+                <AppText variant="medium" style={styles.infoLabel}>{t('editProfile.company')}</AppText>
+                {isSyncing ? <Skeleton width="50%" height={16} /> : <AppText style={styles.infoValue}>{profile?.company}</AppText>}
               </View>
             </View>
           )}
@@ -306,8 +287,8 @@ END:VCARD`, [profile]);
               />
             </View>
             <View style={styles.qrTextContainer}>
-              <Text style={styles.qrTitle}>{t('profileDetail.scanConnect')}</Text>
-              <Text style={styles.qrSubtitle}>{t('profileDetail.instantTransfer')}</Text>
+              <AppText variant="bold" style={styles.qrTitle}>{t('profileDetail.scanConnect')}</AppText>
+              <AppText style={styles.qrSubtitle}>{t('profileDetail.instantTransfer')}</AppText>
             </View>
           </View>
         </View>

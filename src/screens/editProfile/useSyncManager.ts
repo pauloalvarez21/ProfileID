@@ -52,7 +52,7 @@ export const useSyncManager = () => {
         id: response.data.id,
         needsSync: false,
         profileImageUri: response.data.profileImageUri 
-          ? `${Config.BASE_URL}/uploads/profiles/${response.data.profileImageUri}`
+          ? `${Config.BASE_URL}${Config.API_PREFIX}/images/${response.data.profileImageUri}`
           : profile.profileImageUri
       });
       

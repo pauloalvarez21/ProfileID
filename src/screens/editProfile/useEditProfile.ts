@@ -118,29 +118,29 @@ export const useEditProfile = (
     );
   };
 
-  const validateForm = () => {
-    if (!name.trim() || !phoneNumber.trim() || !email.trim()) {
+  const validateForm = (data: any) => {
+    if (!data.name || !data.phoneNumber || !data.email) {
       showModalError(t('editProfile.errors.mandatoryFields', 'Please fill in all mandatory fields (*).'));
       return false;
     }
 
-    if (!isValidEmail(email)) {
+    if (!isValidEmail(data.email)) {
       showModalError(t('editProfile.errors.invalidEmail', 'Please enter a valid email address.'));
       return false;
     }
 
     // Si es creación, la contraseña es obligatoria
-    if (!isEditMode && !password.trim()) {
+    if (!isEditMode && !data.password) {
       showModalError(t('editProfile.errors.passwordRequired'));
       return false;
     }
 
-    if (password && password.length < 8) {
+    if (data.password && data.password.length < 8) {
       showModalError(t('editProfile.errors.passwordTooShort'));
       return false;
     }
 
-    if (password && password !== confirmPassword) {
+    if (data.password && data.password !== confirmPassword.trim()) {
       showModalError(t('editProfile.errors.passwordMismatch', 'Passwords do not match.'));
       return false;
     }
@@ -208,28 +208,25 @@ export const useEditProfile = (
   };
 
   const handleSave = () => {
-    if (!validateForm()) return;
+    // Aplicación masiva de trim() a todos los campos de texto
+    const formValues = { name, lastName, title, company, bio, email, phoneNumber, phoneRaw, linkedIn, website, password };
+    const trimmed = Object.fromEntries(
+      Object.entries(formValues).map(([key, value]) => [key, value.trim()])
+    ) as typeof formValues;
+
+    if (!validateForm(trimmed)) return;
 
     const saveLocally = (backendData?: any) => {
       saveProfile({
-        name,
-        lastName,
-        title,
-        company,
-        bio,
-        email,
-        phoneNumber,
-        phoneRaw,
-        linkedIn,
-        website,
+        ...trimmed,
         profileImageUri:
           backendData?.profileImageUri &&
           typeof backendData.profileImageUri === 'string' &&
           !backendData.profileImageUri.startsWith('http')
-            ? `${Config.BASE_URL}/uploads/profiles/${backendData.profileImageUri}`
+            ? `${Config.BASE_URL}${Config.API_PREFIX}/images/${backendData.profileImageUri}`
             : (profileImage as any)?.uri || null,
         id: backendData?.id || (isEditMode ? profile?.id : undefined),
-        password: backendData?.password || (password || undefined),
+        password: backendData?.password || (trimmed.password || undefined),
         needsSync: !backendData,
       });
 
@@ -258,20 +255,13 @@ export const useEditProfile = (
 
       try {
         const formData = new FormData();
-        formData.append('name', name);
-        formData.append('lastName', lastName);
-        formData.append('title', title);
-        formData.append('company', company);
-        formData.append('bio', bio);
-        formData.append('email', email);
-        formData.append('phoneNumber', phoneNumber);
-        formData.append('phoneRaw', phoneRaw);
-        formData.append('linkedIn', linkedIn);
-        formData.append('website', website || '');
-
-        if (password) {
-          formData.append('password', password);
-        }
+        
+        // Añadir campos ya limpios al FormData
+        Object.entries(trimmed).forEach(([key, value]) => {
+          if (value || key === 'website') { // Mantenemos website aunque sea vacío si así lo requiere el backend
+            formData.append(key, value);
+          }
+        });
 
         if (profileImage && 'uri' in profileImage && profileImage.uri) {
           const uri = profileImage.uri as string;
