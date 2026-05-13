@@ -93,10 +93,10 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('tu_archivo.keystore') // Nombre del archivo que pusiste en android/app/
-            storePassword 'tu_contraseña_del_almacen'
-            keyAlias 'tu_alias_de_la_llave'
-            keyPassword 'tu_contraseña_de_la_llave'
+            storeFile file(MYAPP_RELEASE_STORE_FILE)
+            storePassword MYAPP_RELEASE_STORE_PASSWORD
+            keyAlias MYAPP_RELEASE_KEY_ALIAS
+            keyPassword MYAPP_RELEASE_KEY_PASSWORD
         }
     }
     buildTypes {

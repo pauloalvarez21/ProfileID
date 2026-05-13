@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Alert, Platform } from 'react-native';
+import { Alert, Platform, PermissionsAndroid } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { launchCamera, launchImageLibrary, Asset } from 'react-native-image-picker';
 import { useProfileStore } from '../../store/useProfileStore';
@@ -75,6 +75,35 @@ export const useEditProfile = (
     }
   }, [isEditMode, profile]); // Este efecto se ejecutará cuando isEditMode o profile cambien
 
+  const openCamera = async () => {
+    if (Platform.OS === 'android') {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: t('editProfile.cameraPermissionTitle', 'Camera Permission'),
+          message: t('editProfile.cameraPermissionMessage', 'This app needs access to your camera to take a profile photo.'),
+          buttonPositive: t('common.allow', 'Allow'),
+          buttonNegative: t('common.deny', 'Deny'),
+        }
+      );
+      if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+        Alert.alert(
+          t('editProfile.cameraPermissionTitle', 'Camera Permission'),
+          t('editProfile.cameraPermissionDenied', 'Camera permission was denied. Please enable it in your device settings.')
+        );
+        return;
+      }
+    }
+    launchCamera(
+      { mediaType: 'photo', quality: 0.7, maxWidth: 1200, maxHeight: 1200 },
+      (response) => {
+        if (response.assets && response.assets.length > 0) {
+          setProfileImage(response.assets[0]);
+        }
+      }
+    );
+  };
+
   const handleSelectImage = () => {
     Alert.alert(
       t('editProfile.uploadPhoto'),
@@ -82,18 +111,7 @@ export const useEditProfile = (
       [
         {
           text: t('editProfile.takePhoto', 'Take Photo'),
-          onPress: () => {
-            launchCamera({ 
-              mediaType: 'photo', 
-              quality: 0.7, 
-              maxWidth: 1200, 
-              maxHeight: 1200 
-            }, (response) => {
-              if (response.assets && response.assets.length > 0) {
-                setProfileImage(response.assets[0]);
-              }
-            });
-          },
+          onPress: openCamera,
         },
         {
           text: t('editProfile.gallery', 'Gallery'),

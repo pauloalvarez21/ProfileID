@@ -2233,7 +2233,7 @@ SPEC CHECKSUMS:
   FBLazyVector: 26fd21c75314e101f280d401e97f27d54f3f7064
   Google-Mobile-Ads-SDK: 8429bef6ee1a4e322b0a5571b64217ed8317a3d5
   GoogleUserMessagingPlatform: befe603da6501006420c206222acd449bba45a9c
-  hermes-engine: 812b32e65e9b7f4ad98ae5618553b827edb88ff6
+  hermes-engine: 6cd88207c09df53186048667a698f1a77a078f63
   RCTDeprecation: c7a2768f905d76ca6d2cfefb26e4349eacbdfca3
   RCTRequired: 5e502c3553cfbed090a991c444448da452fb752e
   RCTSwiftUI: 5ce3ccbdc58b78cc4ebbaace01709ec22d58e131
@@ -2242,7 +2242,7 @@ SPEC CHECKSUMS:
   React: 13cf8451582adb1bb324306e1893b91d1cba28c6
   React-callinvoker: 91e6a605826b684ad2e623811253b4d0c4196bef
   React-Core: 46818de5f211b2a2759ac823b591af8a0a95c2c1
-  React-Core-prebuilt: 2b88e7cb22692323d5a870785e5471cf673aa967
+  React-Core-prebuilt: 285c0bd9077f6313dfb175dc05ad1f532bd43240
   React-CoreModules: a6a37afee48d4a31ab398640b0795462647d5c67
   React-cxxreact: 2ec3e2f7a8ae9303460d4ba94cde183ea90d64cd
   React-debug: 0d21117b897ce0359c9d2c9dfe952f237476a14a
@@ -2306,7 +2306,7 @@ SPEC CHECKSUMS:
   ReactAppDependencyProvider: 22e2265d86a4e871e5e858f4e7ef1c8d01103680
   ReactCodegen: 5bd23df5c8ad6c87df0bc8ccd391bd37bf6c92d5
   ReactCommon: a804bb8d1dcf3ecdec3a77eb8bba19b7863bbbdb
-  ReactNativeDependencies: 77b7e1e890a5dff1b3dfedce7f826a992a4caa00
+  ReactNativeDependencies: c343404bd39bbe897bd5d7744309383bb1fd8491
   RNGoogleMobileAds: fe6d089a58e2ad76b592486ae44014aa9f12f9b3
   RNScreens: 01b065ded2dfe7987bcce770ff3a196be417ff41
   RNSVG: 04044c3abcf177fd674a1a3d13097efa1adebcbe
