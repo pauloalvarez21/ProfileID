@@ -26,23 +26,6 @@ export const styles = StyleSheet.create({
     fontWeight: '700',
     color: '#2D3748',
   },
-  langToggle: {
-    width: 40,
-    alignItems: 'flex-end',
-  },
-  langPill: {
-    backgroundColor: '#EDF2F7',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-  },
-  langText: {
-    fontSize: 10,
-    fontWeight: '800',
-    color: '#4A5568',
-  },
   scrollContent: {
     paddingBottom: 50,
   },

@@ -7,7 +7,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Config } from '../../config'; // Asegúrate de que esta ruta sea correcta según tu estructura
 import api from '../../services/api';
 import { RootStackParamList } from '../../navigation/AppNavigator';
-import { isValidEmail } from './validation';
+import { isValidEmail, isValidUrl, validateFieldLength, containsDangerousContent, sanitizeInput, FIELD_LIMITS } from './validation';
 import { parseApiError } from '../../services/errorService';
 
 
@@ -40,8 +40,6 @@ export const useEditProfile = (
   const [confirmPassword, setConfirmPassword] = useState('');
   const [profileImage, setProfileImage] = useState<Asset | { uri: string } | null>(null);
   const [loading, setLoading] = useState(false);
-
-  const currentLanguage = i18n.language;
 
   useEffect(() => {
     if (isEditMode && profile) {
@@ -142,8 +140,40 @@ export const useEditProfile = (
       return false;
     }
 
+    // Validar longitud de campos
+    const fieldLimits = ['name', 'lastName', 'title', 'company', 'bio', 'linkedIn', 'website', 'password'];
+    for (const field of fieldLimits) {
+      const value = data[field as keyof typeof data] || '';
+      if (!validateFieldLength(field, value)) {
+        const limit = FIELD_LIMITS[field as keyof typeof FIELD_LIMITS];
+        showModalError(`${field} exceeds maximum length of ${limit} characters`);
+        return false;
+      }
+    }
+
+    // Validar contenido peligroso (XSS)
+    const textFields = ['name', 'lastName', 'title', 'company', 'bio', 'linkedIn', 'website'];
+    for (const field of textFields) {
+      const value = data[field as keyof typeof data] || '';
+      if (containsDangerousContent(value)) {
+        showModalError(t('editProfile.errors.invalidInput', 'Invalid characters detected in field.'));
+        return false;
+      }
+    }
+
     if (!isValidEmail(data.email)) {
       showModalError(t('editProfile.errors.invalidEmail', 'Please enter a valid email address.'));
+      return false;
+    }
+
+    // Validar URLs
+    if (!isValidUrl(data.linkedIn)) {
+      showModalError(t('editProfile.errors.invalidUrl', 'Please enter a valid LinkedIn URL.'));
+      return false;
+    }
+
+    if (!isValidUrl(data.website)) {
+      showModalError(t('editProfile.errors.invalidUrl', 'Please enter a valid website URL.'));
       return false;
     }
 
@@ -226,7 +256,7 @@ export const useEditProfile = (
   };
 
   const handleSave = () => {
-    // Aplicación masiva de trim() a todos los campos de texto
+    // Aplicación masiva de trim() y sanitización a todos los campos de texto
     const formValues = { name, lastName, title, company, bio, email, phoneNumber, phoneRaw, linkedIn, website, password };
     const trimmed = Object.fromEntries(
       Object.entries(formValues).map(([key, value]) => [key, value.trim()])
@@ -234,9 +264,21 @@ export const useEditProfile = (
 
     if (!validateForm(trimmed)) return;
 
+    // Sanitizar campos de texto (excepto password, email y phone)
+    const sanitized = {
+      ...trimmed,
+      name: sanitizeInput(trimmed.name),
+      lastName: sanitizeInput(trimmed.lastName),
+      title: sanitizeInput(trimmed.title),
+      company: sanitizeInput(trimmed.company),
+      bio: sanitizeInput(trimmed.bio),
+      linkedIn: sanitizeInput(trimmed.linkedIn),
+      website: sanitizeInput(trimmed.website),
+    } as typeof trimmed;
+
     const saveLocally = (backendData?: any) => {
       saveProfile({
-        ...trimmed,
+        ...sanitized,
         profileImageUri:
           backendData?.profileImageUri &&
           typeof backendData.profileImageUri === 'string' &&

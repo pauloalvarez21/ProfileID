@@ -5,8 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Image,
-  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -110,6 +108,7 @@ const EditProfileScreen = ({ navigation, route }: Props) => {
               placeholderTextColor="#A0ABC0"
               value={form.name}
               onChangeText={form.setName}
+              maxLength={50}
             />
           </View>
 
@@ -121,13 +120,14 @@ const EditProfileScreen = ({ navigation, route }: Props) => {
               placeholderTextColor="#A0ABC0"
               value={form.lastName}
               onChangeText={form.setLastName}
+              maxLength={50}
             />
           </View>
 
           <View style={styles.inputGroup}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
               <Text style={[styles.label, { marginBottom: 0 }]}>{t('editProfile.professionalTitle')}</Text>
-              <TouchableOpacity 
+              <TouchableOpacity
                 onPress={handleShowProfessionalTitleTooltip}
                 style={{ marginLeft: 8 }}
               >
@@ -140,6 +140,7 @@ const EditProfileScreen = ({ navigation, route }: Props) => {
               placeholderTextColor="#A0ABC0"
               value={form.title}
               onChangeText={form.setTitle}
+              maxLength={100}
             />
           </View>
 
@@ -151,6 +152,7 @@ const EditProfileScreen = ({ navigation, route }: Props) => {
               placeholderTextColor="#A0ABC0"
               value={form.company}
               onChangeText={form.setCompany}
+              maxLength={100}
             />
           </View>
 
@@ -204,6 +206,7 @@ const EditProfileScreen = ({ navigation, route }: Props) => {
               value={form.linkedIn}
               onChangeText={form.setLinkedIn}
               autoCapitalize="none"
+              maxLength={200}
             />
           </View>
 
@@ -217,13 +220,14 @@ const EditProfileScreen = ({ navigation, route }: Props) => {
               onChangeText={form.setWebsite}
               autoCapitalize="none"
               keyboardType="url"
+              maxLength={200}
             />
           </View>
 
           <View style={styles.inputGroup}>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
               <Text style={[styles.label, { marginBottom: 0 }]}>{t('editProfile.briefBio')}</Text>
-              <TouchableOpacity 
+              <TouchableOpacity
                 onPress={handleShowBriefBioTooltip}
                 style={{ marginLeft: 8 }}
               >
@@ -239,6 +243,7 @@ const EditProfileScreen = ({ navigation, route }: Props) => {
               textAlignVertical="top"
               value={form.bio}
               onChangeText={form.setBio}
+              maxLength={500}
             />
           </View>
 
@@ -247,7 +252,7 @@ const EditProfileScreen = ({ navigation, route }: Props) => {
               <Text style={[styles.label, { marginBottom: 0 }]}>
                 {t('editProfile.password')} {!isEditMode ? '*' : ''}
               </Text>
-              <TouchableOpacity 
+              <TouchableOpacity
                 onPress={handleShowPasswordTooltip}
                 style={{ marginLeft: 8 }}
               >
@@ -261,6 +266,7 @@ const EditProfileScreen = ({ navigation, route }: Props) => {
               secureTextEntry
               value={form.password}
               onChangeText={form.setPassword}
+              maxLength={128}
             />
           </View>
 
