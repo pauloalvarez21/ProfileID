@@ -22,8 +22,6 @@ const LoginScreen = ({ navigation }: Props) => {
     t,
     email,
     setEmail,
-    password,
-    setPassword,
     loading,
     handleLogin,
     handleCreateProfile,
@@ -36,8 +34,6 @@ const LoginScreen = ({ navigation }: Props) => {
     legalTitle,
     fetchLegalContent,
   } = useLogin();
-
-  const currentYear = new Date().getFullYear();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -73,23 +69,6 @@ const LoginScreen = ({ navigation }: Props) => {
               autoCapitalize="none"
               value={email}
               onChangeText={setEmail}
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <View style={styles.labelRow}>
-              <Text style={styles.label}>{t('login.passwordLabel')}</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')} disabled={loading}>
-                <Text style={styles.forgotText}>{t('login.forgot')}</Text>
-              </TouchableOpacity>
-            </View>
-            <TextInput
-              style={styles.input}
-              placeholder="••••••••"
-              placeholderTextColor="#A0ABC0"
-              secureTextEntry
-              value={password}
-              onChangeText={setPassword}
             />
           </View>
 

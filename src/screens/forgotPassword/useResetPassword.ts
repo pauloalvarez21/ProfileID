@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useProfileStore } from '../../store/useProfileStore';
 
 export const useResetPassword = (navigation: any, route: any) => {
   const { t } = useTranslation();
-  const { profile, saveProfile } = useProfileStore();
   const email = route.params?.email || '';
 
   const [code, setCode] = useState('');
@@ -37,13 +35,8 @@ export const useResetPassword = (navigation: any, route: any) => {
 
     setLoading(true);
     try {
-      // Simular reset (offline mode) - actualizar password localmente
-      if (profile) {
-        saveProfile({
-          ...profile,
-          password: newPassword,
-        });
-      }
+      // Simular reset (offline mode)
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       Alert.alert(
         t('common.success'),

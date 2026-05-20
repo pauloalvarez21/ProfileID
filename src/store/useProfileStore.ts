@@ -15,14 +15,13 @@ export interface UserProfile {
   linkedIn?: string;
   website?: string;
   profileImageUri: string | null;
-  password?: string;
 }
 
 interface ProfileState {
   profile: UserProfile | null;
   saveProfile: (profile: UserProfile) => void;
   clearProfile: () => void;
-  setAuthData: (email: string, user: Omit<UserProfile, 'password'>) => void;
+  setAuthData: (email: string, user: Omit<UserProfile, 'id'>) => void;
 }
 
 export const useProfileStore = create<ProfileState>()(

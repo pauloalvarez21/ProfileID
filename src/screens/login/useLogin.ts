@@ -4,15 +4,13 @@ import { RootStackParamList } from '../../navigation/AppNavigator';
 import { useLanguageStore } from '../../store/useLanguageStore';
 import { useProfileStore } from '../../store/useProfileStore';
 import { Alert } from 'react-native';
-import { mmkvStorage } from '../../config';
 
 export const useLogin = () => {
   const { t } = useTranslation();
   const { language, toggleLanguage } = useLanguageStore();
-  const { setAuthData, profile } = useProfileStore();
+  const { profile, setAuthData } = useProfileStore();
 
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
   // Legal modal state (static content for offline mode)
@@ -46,7 +44,6 @@ export const useLogin = () => {
     setLegalLoading(true);
     setLegalContent('');
 
-    // Simular carga para UX consistente
     setTimeout(() => {
       setLegalContent(getStaticLegalContent(type));
       setLegalLoading(false);
@@ -55,12 +52,11 @@ export const useLogin = () => {
 
   const handleLogin = async (navigate: (screen: keyof RootStackParamList, params?: any) => void) => {
     const trimmedEmail = email.trim();
-    const trimmedPassword = password.trim();
 
-    if (!trimmedEmail || !trimmedPassword) {
+    if (!trimmedEmail) {
       Alert.alert(
         t('common.error', 'Error'),
-        t('login.errors.missingCredentials', 'Please enter your credentials.')
+        t('login.errors.missingEmail', 'Por favor ingresa tu correo electrónico.')
       );
       return;
     }
@@ -76,31 +72,15 @@ export const useLogin = () => {
 
     setLoading(true);
     try {
-      // Simular delay para UX
       await new Promise(resolve => setTimeout(resolve, 500));
 
-      // Verificar si ya existe un perfil guardado con ese email
-      const storedUser = mmkvStorage.getItem('user');
-      
-      if (storedUser) {
-        const user = JSON.parse(storedUser);
-        if (user.email === trimmedEmail) {
-          // Login exitoso con usuario existente
-          navigate('ProfileDetail');
-          setLoading(false);
-          return;
-        }
-      }
-
-      // Para login, verificamos si las credenciales coinciden con algún perfil guardado
-      // En modo offline, permitimos el acceso si hay un perfil guardado
+      // Si ya hay un perfil guardado, ir directo al perfil
       if (profile) {
         navigate('ProfileDetail');
       } else {
-        // Si no hay perfil, creamos uno básico con las credenciales
-        setAuthData('local-token-' + Date.now(), {
-          email: trimmedEmail,
-          name: trimmedEmail.split('@')[0],
+        // Si no hay perfil, guardamos el email y vamos a crear perfil
+        setAuthData(trimmedEmail, {
+          name: '',
           lastName: '',
           title: '',
           company: '',
@@ -129,8 +109,6 @@ export const useLogin = () => {
     t,
     email,
     setEmail,
-    password,
-    setPassword,
     loading,
     language,
     handleLogin,

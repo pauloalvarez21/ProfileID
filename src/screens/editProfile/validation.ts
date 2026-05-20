@@ -10,7 +10,6 @@ export const FIELD_LIMITS = {
   bio: 500,
   linkedIn: 200,
   website: 200,
-  password: 128,
 } as const;
 
 // Sanitizar string: escapa caracteres HTML peligrosos

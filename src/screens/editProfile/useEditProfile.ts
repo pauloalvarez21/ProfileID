@@ -32,8 +32,6 @@ export const useEditProfile = (
   const [phoneRaw, setPhoneRaw] = useState('');
   const [linkedIn, setLinkedIn] = useState('');
   const [website, setWebsite] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [profileImage, setProfileImage] = useState<Asset | { uri: string } | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -62,8 +60,6 @@ export const useEditProfile = (
       setLinkedIn('');
       setWebsite('');
       setProfileImage(null);
-      setPassword('');
-      setConfirmPassword('');
     }
   }, [isEditMode, profile]);
 
@@ -134,7 +130,7 @@ export const useEditProfile = (
       return false;
     }
 
-    const fieldLimits = ['name', 'lastName', 'title', 'company', 'bio', 'linkedIn', 'website', 'password'];
+    const fieldLimits = ['name', 'lastName', 'title', 'company', 'bio', 'linkedIn', 'website'];
     for (const field of fieldLimits) {
       const value = data[field as keyof typeof data] || '';
       if (!validateFieldLength(field, value)) {
@@ -167,20 +163,6 @@ export const useEditProfile = (
       return false;
     }
 
-    if (!isEditMode && !data.password) {
-      showModalError(t('editProfile.errors.passwordRequired'));
-      return false;
-    }
-
-    if (data.password && data.password.length < 8) {
-      showModalError(t('editProfile.errors.passwordTooShort'));
-      return false;
-    }
-
-    if (data.password && data.password !== confirmPassword.trim()) {
-      showModalError(t('editProfile.errors.passwordMismatch', 'Passwords do not match.'));
-      return false;
-    }
     return true;
   };
 
@@ -234,18 +216,8 @@ export const useEditProfile = (
     setModalVisible(true);
   };
 
-  const handleShowPasswordTooltip = () => {
-    setModalTitle(t('editProfile.password'));
-    setModalMessage(t('editProfile.tooltips.passwordRequirements'));
-    setModalType('success');
-    setPrimaryButtonText(t('common.close'));
-    setSecondaryButtonText(undefined);
-    setShouldNavigateBack(false);
-    setModalVisible(true);
-  };
-
   const handleSave = () => {
-    const formValues = { name, lastName, title, company, bio, email, phoneNumber, phoneRaw, linkedIn, website, password };
+    const formValues = { name, lastName, title, company, bio, email, phoneNumber, phoneRaw, linkedIn, website };
     const trimmed = Object.fromEntries(
       Object.entries(formValues).map(([key, value]) => [key, value.trim()])
     ) as typeof formValues;
@@ -263,13 +235,10 @@ export const useEditProfile = (
       website: sanitizeInput(trimmed.website),
     } as typeof trimmed;
 
-    // Guardar solo localmente
     saveProfile({
       ...sanitized,
       profileImageUri: (profileImage as any)?.uri || null,
-      id: isEditMode ? profile?.id : Date.now(), // ID local basado en timestamp
-      password: trimmed.password || undefined,
-      needsSync: false, // Sin sync en modo offline
+      id: isEditMode ? profile?.id : Date.now(),
     });
 
     setModalTitle(t('common.success', 'Success!'));
@@ -332,7 +301,6 @@ export const useEditProfile = (
     handleShowLinkedInTooltip,
     handleShowProfessionalTitleTooltip,
     handleShowBriefBioTooltip,
-    handleShowPasswordTooltip,
     handleShowImageTooltip,
     modal: {
       visible: modalVisible,
@@ -355,8 +323,6 @@ export const useEditProfile = (
       phoneRaw, setPhoneRaw,
       linkedIn, setLinkedIn,
       website, setWebsite,
-      password, setPassword,
-      confirmPassword, setConfirmPassword,
     }
   };
 };

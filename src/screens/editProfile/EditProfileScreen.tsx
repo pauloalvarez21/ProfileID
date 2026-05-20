@@ -42,7 +42,6 @@ const EditProfileScreen = ({ navigation, route }: Props) => {
     handleShowLinkedInTooltip,
     handleShowProfessionalTitleTooltip,
     handleShowBriefBioTooltip,
-    handleShowPasswordTooltip,
     handleShowImageTooltip,
     modal,
     form
@@ -244,41 +243,6 @@ const EditProfileScreen = ({ navigation, route }: Props) => {
               value={form.bio}
               onChangeText={form.setBio}
               maxLength={500}
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
-              <Text style={[styles.label, { marginBottom: 0 }]}>
-                {t('editProfile.password')} {!isEditMode ? '*' : ''}
-              </Text>
-              <TouchableOpacity
-                onPress={handleShowPasswordTooltip}
-                style={{ marginLeft: 8 }}
-              >
-                <Text style={{ fontSize: 16, color: '#A0ABC0' }}>ⓘ</Text>
-              </TouchableOpacity>
-            </View>
-            <TextInput
-              style={styles.input}
-              placeholder="••••••••"
-              placeholderTextColor="#A0ABC0"
-              secureTextEntry
-              value={form.password}
-              onChangeText={form.setPassword}
-              maxLength={128}
-            />
-          </View>
-
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>{t('editProfile.confirmPassword')}</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="••••••••"
-              placeholderTextColor="#A0ABC0"
-              secureTextEntry
-              value={form.confirmPassword}
-              onChangeText={form.setConfirmPassword}
             />
           </View>
 
