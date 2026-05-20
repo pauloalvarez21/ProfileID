@@ -3,12 +3,10 @@ import {
   View,
   Text,
   TextInput,
-  TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomButton from '../../components/CustomButton';
-import PrivacyModal from '../../components/PrivacyModal';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
 
@@ -27,12 +25,6 @@ const LoginScreen = ({ navigation }: Props) => {
     handleCreateProfile,
     language,
     toggleLanguage,
-    legalVisible,
-    setLegalVisible,
-    legalLoading,
-    legalContent,
-    legalTitle,
-    fetchLegalContent,
   } = useLogin();
 
   return (
@@ -95,28 +87,8 @@ const LoginScreen = ({ navigation }: Props) => {
 
         <View style={styles.footer}>
           <Text style={styles.footerBrand}>Gaelectronica {'\u00a9'} 2024 - {new Date().getFullYear()}</Text>
-          <View style={styles.footerLinks}>
-            <TouchableOpacity onPress={() => fetchLegalContent('privacy')}>
-              <Text style={[styles.footerLink, styles.footerLinkTappable]}>{t('common.privacy')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => fetchLegalContent('terms')}>
-              <Text style={[styles.footerLink, styles.footerLinkTappable]}>{t('common.terms')}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => fetchLegalContent('security')}>
-              <Text style={[styles.footerLink, styles.footerLinkTappable]}>{t('common.security')}</Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </ScrollView>
-
-      <PrivacyModal
-        visible={legalVisible}
-        onClose={() => setLegalVisible(false)}
-        content={legalContent}
-        loading={legalLoading}
-        title={legalTitle}
-        closeText={t('common.close')}
-      />
     </SafeAreaView>
   );
 };
