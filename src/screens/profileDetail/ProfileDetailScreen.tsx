@@ -1,11 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   View,
   ScrollView,
   TouchableOpacity,
   Linking,
   Share,
-  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
@@ -24,8 +23,6 @@ import QRModal from '../../components/QRModal';
 import SafeImage from '../../components/SafeImage';
 import CustomModal from '../../components/CustomModal';
 import AppText from '../../components/AppText';
-import Skeleton from '../../components/Skeleton';
-import { useSyncManager } from '../editProfile/useSyncManager';
 
 const adUnitId = __DEV__
   ? TestIds.ADAPTIVE_BANNER
@@ -33,26 +30,18 @@ const adUnitId = __DEV__
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ProfileDetail'>;
 
-// Función de utilidad para asegurar que las URLs tengan el protocolo correcto
 const normalizeUrl = (url: string) => {
   const trimmed = url.trim();
   if (!trimmed) return '';
-
-  // Si ya tiene protocolo, nos aseguramos de que esté en minúsculas. 
-  // Si no tiene, le forzamos https:// para que el lector lo reconozca como URL.
   if (/^https?:\/\//i.test(trimmed)) {
     return trimmed.replace(/^https?:\/\//i, (match) => match.toLowerCase());
   }
   return `https://${trimmed}`;
 };
 
-// Función de utilidad para construir la URL completa de LinkedIn
 const getLinkedInProfileUrl = (linkedInValue: string) => {
   const trimmed = linkedInValue.trim();
   if (!trimmed) return '';
-
-  // If the user already provided a full LinkedIn URL (e.g., with /in/ or /company/), normalize it.
-  // Otherwise, assume it's a username and construct the full URL.
   if (trimmed.toLowerCase().includes('linkedin.com/in/') || trimmed.toLowerCase().includes('linkedin.com/company/')) {
     return normalizeUrl(trimmed);
   }
@@ -62,15 +51,12 @@ const getLinkedInProfileUrl = (linkedInValue: string) => {
 const ProfileDetailScreen = ({ navigation }: Props) => {
   const { t } = useTranslation();
   const { profile, clearProfile } = useProfileStore();
-  const { handleBackgroundSync } = useSyncManager();
-  const [isSyncing, setIsSyncing] = useState(false);
 
   const [whatsappModalVisible, setWhatsappModalVisible] = useState(false);
   const [emailModalVisible, setEmailModalVisible] = useState(false);
   const [linkedInModalVisible, setLinkedInModalVisible] = useState(false);
   const [websiteModalVisible, setWebsiteModalVisible] = useState(false);
 
-  // Estados para controlar el CustomModal
   const [modalVisible, setModalVisible] = useState(false);
   const [modalConfig, setModalConfig] = useState<{
     title: string;
@@ -158,43 +144,17 @@ URL:${profile?.website ? normalizeUrl(profile.website) : ''}
 NOTE:LinkedIn: ${profile?.linkedIn ? getLinkedInProfileUrl(profile.linkedIn) : ''} | Bio: ${profile?.bio || ''}
 END:VCARD`, [profile]);
 
-  const handleManualSync = async () => {
-    setIsSyncing(true);
-    try {
-      await handleBackgroundSync();
-      setModalConfig({
-        title: t('common.success'),
-        message: t('editProfile.syncSuccess'),
-        type: 'success',
-        primaryText: t('common.close'),
-        onPrimary: () => setModalVisible(false),
-      });
-      setModalVisible(true);
-    } catch (error: any) {
-      setModalConfig({
-        title: t('common.error'),
-        message: t(error.message),
-        type: 'error',
-        primaryText: t('common.close'),
-        onPrimary: () => setModalVisible(false),
-      });
-      setModalVisible(true);
-    } finally {
-      setIsSyncing(false);
-    }
-  };
-
   const renderInfoItem = (label: string, value: string | undefined, icon: string, onPress: () => void) => {
-    if (!value && !isSyncing) return null;
+    if (!value) return null;
 
     return (
-      <TouchableOpacity style={styles.infoItem} onPress={onPress} disabled={isSyncing}>
+      <TouchableOpacity style={styles.infoItem} onPress={onPress}>
         <View style={styles.infoIconContainer}>
           <AppText style={styles.infoIcon}>{icon}</AppText>
         </View>
         <View style={styles.infoContent}>
           <AppText variant="medium" style={styles.infoLabel}>{label}</AppText>
-          {isSyncing ? <Skeleton width="60%" height={16} /> : <AppText style={styles.infoValue}>{value}</AppText>}
+          <AppText style={styles.infoValue}>{value}</AppText>
         </View>
       </TouchableOpacity>
     );
@@ -203,21 +163,7 @@ END:VCARD`, [profile]);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <View style={{ width: 40, alignItems: 'center', justifyContent: 'center' }}>
-          {profile?.needsSync && (
-            <TouchableOpacity 
-              onPress={handleManualSync} 
-              disabled={isSyncing}
-              style={{ opacity: isSyncing ? 0.6 : 1 }}
-            >
-              {isSyncing ? (
-                <ActivityIndicator size="small" color="#4E576B" />
-              ) : (
-                <AppText style={{ fontSize: 20 }}>☁️</AppText>
-              )}
-            </TouchableOpacity>
-          )}
-        </View>
+        <View style={{ width: 40 }} />
         <AppText variant="semiBold" style={styles.headerTitle}>{t('profileDetail.header')}</AppText>
         <TouchableOpacity style={styles.menuButton} onPress={handleMenuPress}>
           <AppText style={styles.headerTitle}>⋮</AppText>
@@ -227,35 +173,20 @@ END:VCARD`, [profile]);
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <View style={styles.profileHeader}>
           <View style={styles.imageContainer}>
-            {isSyncing ? (
-              <Skeleton width={120} height={120} borderRadius={60} />
-            ) : (
-              <SafeImage
-                source={profile?.profileImageUri ? { uri: profile.profileImageUri } : undefined}
-                style={styles.profileImage}
-                resizeMode="cover"
-              />
-            )}
+            <SafeImage
+              source={profile?.profileImageUri ? { uri: profile.profileImageUri } : undefined}
+              style={styles.profileImage}
+              resizeMode="cover"
+            />
           </View>
-          
-          {isSyncing ? (
-            <>
-              <Skeleton width="50%" height={24} style={{ marginTop: 15, marginBottom: 10 }} />
-              <Skeleton width="30%" height={18} />
-            </>
-          ) : (
-            <>
-              <AppText variant="bold" style={styles.name}>
-                {profile?.name || profile?.lastName ? `${profile.name} ${profile.lastName}` : 'User Name'}
-              </AppText>
-              <AppText variant="medium" style={styles.title}>{profile?.title || 'Professional Title'}</AppText>
-            </>
-          )}
 
-          {(profile?.bio || isSyncing) && (
-            isSyncing ? 
-              <Skeleton width="80%" height={40} style={{ marginTop: 15 }} /> : 
-              <AppText style={styles.headerBio}>{profile?.bio}</AppText>
+          <AppText variant="bold" style={styles.name}>
+            {profile?.name || profile?.lastName ? `${profile.name} ${profile.lastName}` : 'User Name'}
+          </AppText>
+          <AppText variant="medium" style={styles.title}>{profile?.title || 'Professional Title'}</AppText>
+
+          {profile?.bio && (
+            <AppText style={styles.headerBio}>{profile?.bio}</AppText>
           )}
         </View>
 
@@ -264,13 +195,13 @@ END:VCARD`, [profile]);
           {renderInfoItem(t('profileDetail.email'), profile?.email, '✉️', () => setEmailModalVisible(true))}
           {renderInfoItem(t('profileDetail.linkedin'), profile?.linkedIn, '🔗', () => setLinkedInModalVisible(true))}
           {renderInfoItem(t('profileDetail.website'), profile?.website, '🌐', () => setWebsiteModalVisible(true))}
-          
-          {(profile?.company || isSyncing) && (
+
+          {profile?.company && (
             <View style={styles.infoItem}>
               <View style={styles.infoIconContainer}><AppText style={styles.infoIcon}>🏢</AppText></View>
               <View style={styles.infoContent}>
                 <AppText variant="medium" style={styles.infoLabel}>{t('editProfile.company')}</AppText>
-                {isSyncing ? <Skeleton width="50%" height={16} /> : <AppText style={styles.infoValue}>{profile?.company}</AppText>}
+                <AppText style={styles.infoValue}>{profile?.company}</AppText>
               </View>
             </View>
           )}
@@ -301,7 +232,7 @@ END:VCARD`, [profile]);
         value={`https://wa.me/${profile?.phoneNumber?.replace(/\D/g, '') || ''}`}
         logo={require('../../../assets/images/whatsapp.jpeg')}
       />
-      
+
       <QRModal
         visible={emailModalVisible}
         onClose={() => setEmailModalVisible(false)}
@@ -309,7 +240,7 @@ END:VCARD`, [profile]);
         value={`mailto:${profile?.email || ''}?subject=Hola, vi tu perfil`}
         logo={require('../../../assets/images/email.jpeg')}
       />
-      
+
       <QRModal
         visible={linkedInModalVisible}
         onClose={() => setLinkedInModalVisible(false)}
@@ -317,7 +248,7 @@ END:VCARD`, [profile]);
         value={profile?.linkedIn ? getLinkedInProfileUrl(profile.linkedIn) : ''}
         logo={require('../../../assets/images/linkedin.jpeg')}
       />
-      
+
       <QRModal
         visible={websiteModalVisible}
         onClose={() => setWebsiteModalVisible(false)}

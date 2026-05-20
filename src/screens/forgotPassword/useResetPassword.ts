@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import api from '../../services/api';
+import { useProfileStore } from '../../store/useProfileStore';
 
 export const useResetPassword = (navigation: any, route: any) => {
   const { t } = useTranslation();
+  const { profile, saveProfile } = useProfileStore();
   const email = route.params?.email || '';
-  
+
   const [code, setCode] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -36,11 +37,13 @@ export const useResetPassword = (navigation: any, route: any) => {
 
     setLoading(true);
     try {
-      await api.post('/auth/reset-password', {
-        email,
-        code,
-        newPassword,
-      });
+      // Simular reset (offline mode) - actualizar password localmente
+      if (profile) {
+        saveProfile({
+          ...profile,
+          password: newPassword,
+        });
+      }
 
       Alert.alert(
         t('common.success'),
@@ -51,7 +54,7 @@ export const useResetPassword = (navigation: any, route: any) => {
       console.error('Reset password error:', error);
       Alert.alert(
         t('common.error'),
-        t(error.message)
+        t('forgotPassword.resetPassword.errors.generic', 'Error al restablecer contraseña.')
       );
     } finally {
       setLoading(false);

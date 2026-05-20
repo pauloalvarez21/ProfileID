@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(npm install)",
+      "Bash(git checkout *)",
+      "Bash(rm *)",
+      "Bash(yarn install)"
     ]
   },
   "$version": 4

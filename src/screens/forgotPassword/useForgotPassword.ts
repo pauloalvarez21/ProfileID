@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import api from '../../services/api';
+
 export const useForgotPassword = (navigation: any) => {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
@@ -46,24 +46,21 @@ export const useForgotPassword = (navigation: any) => {
 
     setLoading(true);
     try {
-      await api.post('/auth/recover-password', { email: trimmedEmail });
+      // Simular envío de correo (offline mode)
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       setCountdown(60);
 
       Alert.alert(
         t('common.success', '¡Éxito!'),
-        t('forgotPassword.successMessage', 'Se ha enviado un correo para restablecer tu contraseña.'),
+        t('forgotPassword.successMessage', 'En modo offline, no se envía correo real. Continúa para restablecer contraseña.'),
         [{ text: 'OK', onPress: () => navigation.navigate('ResetPassword', { email: trimmedEmail }) }]
       );
     } catch (error: any) {
-      if (error.status === 404) {
-        return Alert.alert(t('common.error'), t('forgotPassword.userNotFound'));
-      }
-
       console.error('Forgot password error:', error);
       Alert.alert(
         t('common.error'),
-        t(error.message)
+        t('forgotPassword.errors.generic', 'Error al procesar solicitud.')
       );
     } finally {
       setLoading(false);

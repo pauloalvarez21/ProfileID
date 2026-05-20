@@ -4,24 +4,35 @@ import { RootStackParamList } from '../../navigation/AppNavigator';
 import { useLanguageStore } from '../../store/useLanguageStore';
 import { useProfileStore } from '../../store/useProfileStore';
 import { Alert } from 'react-native';
-import { Config } from '../../config';
-import api from '../../services/api';
-import { parseApiError } from '../../services/errorService';
+import { mmkvStorage } from '../../config';
 
 export const useLogin = () => {
   const { t } = useTranslation();
   const { language, toggleLanguage } = useLanguageStore();
-  const { setAuthData } = useProfileStore();
-  
+  const { setAuthData, profile } = useProfileStore();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Legal modal state (Generic for Privacy, Terms, Security)
+  // Legal modal state (static content for offline mode)
   const [legalVisible, setLegalVisible] = useState(false);
   const [legalLoading, setLegalLoading] = useState(false);
   const [legalContent, setLegalContent] = useState('');
   const [legalTitle, setLegalTitle] = useState('');
+
+  const getStaticLegalContent = (type: 'privacy' | 'terms' | 'security'): string => {
+    switch (type) {
+      case 'privacy':
+        return t('legal.privacyContent') || 'Política de Privacidad\n\nSus datos se almacenan localmente en su dispositivo. No compartimos información con terceros.';
+      case 'terms':
+        return t('legal.termsContent') || 'Términos de Uso\n\nEsta aplicación funciona sin conexión. Los datos se guardan localmente en su dispositivo.';
+      case 'security':
+        return t('legal.securityContent') || 'Seguridad\n\nSu información está protegida en el almacenamiento local de su dispositivo.';
+      default:
+        return '';
+    }
+  };
 
   const fetchLegalContent = async (type: 'privacy' | 'terms' | 'security') => {
     const titleMap = {
@@ -35,20 +46,11 @@ export const useLogin = () => {
     setLegalLoading(true);
     setLegalContent('');
 
-    try {
-      const response = await api.get(`/legal/${type}`); // Axios ya parsea el JSON
-      setLegalContent(response.data.content || response.data.text || response.data);
-    } catch (error: any) {
-      console.error(`Error fetching ${type}:`, error);
-      const parsed = parseApiError(error);
-      // Usamos el mensaje estandarizado si es error de red, o el mensaje de carga legal
-      const errorMsg = parsed.isNetworkError 
-        ? t(parsed.message)
-        : t('login.errors.legalLoad', { title: titleMap[type] });
-      setLegalContent(errorMsg);
-    } finally {
+    // Simular carga para UX consistente
+    setTimeout(() => {
+      setLegalContent(getStaticLegalContent(type));
       setLegalLoading(false);
-    }
+    }, 300);
   };
 
   const handleLogin = async (navigate: (screen: keyof RootStackParamList, params?: any) => void) => {
@@ -74,34 +76,45 @@ export const useLogin = () => {
 
     setLoading(true);
     try {
-      const response = await api.post('/auth/login', { 
-        email: trimmedEmail, 
-        password: trimmedPassword 
-      });
-      const { accessToken, user } = response.data;
-      
-      console.log('--- DEBUG LOGIN ---');
-      console.log('Token recibido:', accessToken ? 'SI' : 'NO');
+      // Simular delay para UX
+      await new Promise(resolve => setTimeout(resolve, 500));
 
-      const imageFilename = user.profileImageUri;
-      let finalImageUri = null;
-      if (imageFilename) {
-        // Construir la URL completa de la imagen
-        finalImageUri = `${Config.BASE_URL}${Config.API_PREFIX}/images/${imageFilename}`;
+      // Verificar si ya existe un perfil guardado con ese email
+      const storedUser = mmkvStorage.getItem('user');
+      
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        if (user.email === trimmedEmail) {
+          // Login exitoso con usuario existente
+          navigate('ProfileDetail');
+          setLoading(false);
+          return;
+        }
       }
 
-      // Guardar token y datos del usuario usando la nueva función del store
-      // Esto actualiza MMKV para el interceptor y Zustand para la UI
-      setAuthData(accessToken, { ...user, profileImageUri: finalImageUri });
-
-      navigate('ProfileDetail');
+      // Para login, verificamos si las credenciales coinciden con algún perfil guardado
+      // En modo offline, permitimos el acceso si hay un perfil guardado
+      if (profile) {
+        navigate('ProfileDetail');
+      } else {
+        // Si no hay perfil, creamos uno básico con las credenciales
+        setAuthData('local-token-' + Date.now(), {
+          email: trimmedEmail,
+          name: trimmedEmail.split('@')[0],
+          lastName: '',
+          title: '',
+          company: '',
+          bio: '',
+          phoneNumber: '',
+          profileImageUri: null,
+        });
+        navigate('EditProfile', { isEdit: false });
+      }
     } catch (error: any) {
-      const parsed = parseApiError(error);
-      console.warn('Login error:', parsed);
-      
+      console.warn('Login error:', error);
       Alert.alert(
         t('login.errorTitle'),
-        t(parsed.message)
+        t('login.errors.generic', 'Error al iniciar sesión.')
       );
     } finally {
       setLoading(false);
