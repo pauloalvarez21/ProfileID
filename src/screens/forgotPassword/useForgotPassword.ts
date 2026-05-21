@@ -19,7 +19,7 @@ export const useForgotPassword = (navigation: any) => {
   }, [countdown]);
 
   const handleBack = () => {
-    navigation.goBack();
+    navigation.navigate('Login');
   };
 
   const handleResetPassword = async () => {
