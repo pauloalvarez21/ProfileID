@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { TouchableOpacity } from 'react';
 import {
   View,
   Text,
-  TextInput,
-  TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,8 +17,6 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 const LoginScreen = ({ navigation }: Props) => {
   const {
     t,
-    email,
-    setEmail,
     loading,
     handleLogin,
     handleCreateProfile,
@@ -52,25 +48,12 @@ const LoginScreen = ({ navigation }: Props) => {
         </View>
 
         <View style={styles.card}>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>{t('login.emailLabel')}</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="name@nexus-slate.com"
-              placeholderTextColor="#A0ABC0"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              value={email}
-              onChangeText={setEmail}
-            />
-          </View>
-
           <CustomButton
             title={t('login.loginButton')}
-            onPress={() => handleLogin(navigation.navigate)}
+            onPress={handleLogin}
             loading={loading}
             icon="→"
-            style={{ marginTop: 10 }}
+            style={{ marginBottom: 10 }}
           />
 
           <View style={styles.divider} />
