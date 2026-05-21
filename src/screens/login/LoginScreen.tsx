@@ -18,9 +18,6 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 const LoginScreen = ({ navigation }: Props) => {
   const {
     t,
-    loading,
-    handleLogin,
-    handleCreateProfile,
     language,
     toggleLanguage,
   } = useLogin();
@@ -49,21 +46,11 @@ const LoginScreen = ({ navigation }: Props) => {
         </View>
 
         <View style={styles.card}>
-          <CustomButton
-            title={t('login.loginButton')}
-            onPress={() => handleLogin(navigation.navigate)}
-            loading={loading}
-            icon="→"
-            style={{ marginBottom: 10 }}
-          />
-
-          <View style={styles.divider} />
-
           <View style={styles.signupContainer}>
             <Text style={styles.newToText}>{t('login.newToEcosystem')}</Text>
             <CustomButton
               title={t('login.createProfile')}
-              onPress={() => handleCreateProfile(navigation.navigate)}
+              onPress={() => navigation.navigate('EditProfile', { isEdit: false })}
               variant="secondary"
               icon="+"
             />
