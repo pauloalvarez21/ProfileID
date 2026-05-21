@@ -1,7 +1,8 @@
-import React, { TouchableOpacity } from 'react';
+import React from 'react';
 import {
   View,
   Text,
+  TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -50,7 +51,7 @@ const LoginScreen = ({ navigation }: Props) => {
         <View style={styles.card}>
           <CustomButton
             title={t('login.loginButton')}
-            onPress={handleLogin}
+            onPress={() => handleLogin(navigation.navigate)}
             loading={loading}
             icon="→"
             style={{ marginBottom: 10 }}
