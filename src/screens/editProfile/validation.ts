@@ -43,6 +43,19 @@ export const isValidUrl = (url: string): boolean => {
   return URL_REGEX.test(url.trim());
 };
 
+// LinkedIn: solo username, sin URLs completas
+export const isValidLinkedIn = (linkedin: string): boolean => {
+  if (!linkedin || linkedin.trim() === '') return true; // Opcional
+  const trimmed = linkedin.trim();
+  // No permitir URLs completas
+  if (trimmed.includes('http') || trimmed.includes('linkedin.com')) {
+    return false;
+  }
+  // Solo permitir username: letras, números, guiones
+  const linkedInRegex = /^[a-zA-Z0-9_-]+$/;
+  return linkedInRegex.test(trimmed);
+};
+
 export const validateFieldLength = (field: string, value: string): boolean => {
   const limit = FIELD_LIMITS[field as keyof typeof FIELD_LIMITS];
   if (!limit) return true; // Campo sin límite definido

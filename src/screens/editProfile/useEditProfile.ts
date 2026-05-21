@@ -5,7 +5,7 @@ import { launchCamera, launchImageLibrary, Asset } from 'react-native-image-pick
 import { useProfileStore } from '../../store/useProfileStore';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/AppNavigator';
-import { isValidEmail, isValidUrl, validateFieldLength, containsDangerousContent, sanitizeInput, FIELD_LIMITS } from './validation';
+import { isValidEmail, isValidUrl, isValidLinkedIn, validateFieldLength, containsDangerousContent, sanitizeInput, FIELD_LIMITS } from './validation';
 
 export const useEditProfile = (
   isEditMode: boolean = false,
@@ -153,8 +153,8 @@ export const useEditProfile = (
       return false;
     }
 
-    if (!isValidUrl(data.linkedIn)) {
-      showModalError(t('editProfile.errors.invalidUrl', 'Please enter a valid LinkedIn URL.'));
+    if (!isValidLinkedIn(data.linkedIn)) {
+      showModalError(t('editProfile.errors.invalidLinkedIn', 'Enter LinkedIn username only (e.g. julian-voss).'));
       return false;
     }
 

@@ -200,7 +200,7 @@ const EditProfileScreen = ({ navigation, route }: Props) => {
             </View>
             <TextInput
               style={styles.input}
-              placeholder="linkedin.com/in/username"
+              placeholder="username"
               placeholderTextColor="#A0ABC0"
               value={form.linkedIn}
               onChangeText={form.setLinkedIn}
